@@ -29,6 +29,7 @@ public class Mario extends Sprite {
 		// FALL (and stop when a platform is hit)
 		y++;
 	}
+	
 
-
+	
 }
