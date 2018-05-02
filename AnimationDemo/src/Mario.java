@@ -18,7 +18,7 @@ public class Mario extends Sprite {
 	// METHODS
 	public void walk(int dir) {
 		// WALK!
-		this.moveByAmount(dir, 0);
+		this.moveByAmount(dir, 0);//hey
 	}
 
 	public void jump() {
@@ -28,6 +28,7 @@ public class Mario extends Sprite {
 
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
+		
 	}
 
 
