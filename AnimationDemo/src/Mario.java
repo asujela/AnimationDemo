@@ -41,8 +41,6 @@ public class Mario extends Sprite {
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
 		accelerate(0,1440);
-		
-		
 		x += dt * (oldDx + ((ddx/2) * dt));
 		y += dt * (oldDy + ((ddy/2) * dt));
 	}
