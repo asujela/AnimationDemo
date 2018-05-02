@@ -26,13 +26,27 @@ public class Mario extends Sprite {
 
 	public void jump() {
 		// JUMP!
-		super.moveByAmount(0, -2);
+		accelerate(0,-4);
 	}
 
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
+		accelerate(0,1440);
+		
+		
 		x += dt * (oldDx + ((ddx/2) * dt));
 		y += dt * (oldDy + ((ddy/2) * dt));
+	}
+	
+	public void accelerate (double dx, double dy) {
+		// This is a simple acceleate method that adds dx and dy to the current velocity.
+		this.dx += dx;
+		this.dy += dy;
+
+		// This part of the method is used to remember how much the player accelerated in the frame
+		// It is only useful for calculating distance moved :)
+		ddx += dx;
+		ddy += dy;
 	}
 	
 
