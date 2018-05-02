@@ -23,7 +23,6 @@ public class Mario extends Sprite {
 
 	public void jump() {
 		// JUMP!
-		System.out.println("hi");
 		super.moveByAmount(0, -20);
 	}
 
