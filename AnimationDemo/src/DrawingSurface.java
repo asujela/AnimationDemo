@@ -59,7 +59,6 @@ public class DrawingSurface extends PApplet {
 	public void draw() {
 
 		// drawing stuff
-		System.out.println("bye");
 		background(0,255,255);   
 
 		pushMatrix();
