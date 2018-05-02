@@ -31,6 +31,7 @@ public class Mario extends Sprite {
 		
 		y++;
 	}
+	
 
-
+	
 }
