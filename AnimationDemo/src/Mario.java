@@ -66,7 +66,9 @@ public class Mario extends Sprite {
 	public void jump() {
 		// JUMP!
 		if(isTouchingGround){
-			accelerate(0, -200);
+			if(dy > -maxDy && dy < maxDy) {
+				accelerate(0, -640);
+			}
 			isTouchingGround = false;
 		}
 		
