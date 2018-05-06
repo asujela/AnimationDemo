@@ -29,6 +29,7 @@ public class Mario extends Sprite {
 
 	// METHODS
 	public void walk(int dir) {
+		isMoving = true;
 		// WALK!
 		double accelAmt = 0;
 		isMoving = true;
@@ -65,18 +66,46 @@ public class Mario extends Sprite {
 	public void jump() {
 		// JUMP!
 		if(isTouchingGround){
-			accelerate(0, -640);
+			accelerate(0, -200);
+			isTouchingGround = false;
 		}
 		
 	}
 
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
-		accelerate(0, 1440*dt);
+		
+		boolean in = false;
+		for(Shape s : obstacles) {
+			if(s.contains(x+MARIO_WIDTH/2, y+MARIO_HEIGHT)) {
+				in = true;
+			}
+		}
+		if(in) {
+			isTouchingGround = true;
+		}
+		else {
+			accelerate(0, 1440*dt);
+		}
+		int c = 0;
+		while(!isTouchingGround && wouldBeX(obstacles) && c < 20) {
+			accelerate( -dx / 8,0);
+			c++;
+		}
+		c = 0;
+		while(wouldBeY(obstacles) && c < 80) {
+			if(dy > 0) {
+				accelerate(0, -dy / 8);
+			}
+			c++;
+		}
+		
 		applyFriction();
-		isTouchingGround = true;
+		isMoving = false;
+		
 		
 		super.moveByAmount(dt * (oldDx + ((ddx/2) * dt)), dt * (oldDy + ((ddy/2) * dt)));
+		
 		oldDx = this.dx;
 		oldDy = this.dy;
 		ddx = 0;
@@ -94,7 +123,24 @@ public class Mario extends Sprite {
 		ddy += dy;
 	}
 	
-	
+	private boolean wouldBeX(ArrayList<Shape> obstacles) {
+		boolean wouldBe = false;
+		for(Shape s : obstacles) {
+			if(s.contains(x+MARIO_WIDTH/2 + dt * (oldDx + ((ddx/2) * dt)), y+MARIO_HEIGHT)) {
+				wouldBe = true;
+			}
+		}
+		return wouldBe;
+	}
+	private boolean wouldBeY(ArrayList<Shape> obstacles) {
+		boolean wouldBe = false;
+		for(Shape s : obstacles) {
+			if(s.contains(x+MARIO_WIDTH/2, y+MARIO_HEIGHT + dt * (oldDy + ((ddy/2) * dt)))) {
+				wouldBe = true;
+			}
+		}
+		return wouldBe;
+	}
 	private void applyFriction() {
 		if (isMoving) {
 			if (isTouchingGround) {
