@@ -30,22 +30,60 @@ public class Mario extends Sprite {
 	// METHODS
 	public void walk(int dir) {
 		// WALK!
-		this.moveByAmount(dir, 0);//hey
+		double accelAmt = 0;
+		isMoving = true;
+		if (dir*dx >= 0 && dir*dx <=maxDx/2) {
+			accelAmt = maxDx / ticksFromZeroToHalf;
+		}
+		else if (dir*dx >= maxDx/2 && dir*dx <= maxDx) {
+			double accelerationFromZeroToHalf = maxDx / 2 / ticksFromZeroToHalf;
+			double accelerationCoefficient = accelerationFromZeroToHalf / ticksFromHalfToFull;
+			double tickCount = ticksFromHalfToFull + Math.sqrt(Math.pow(ticksFromHalfToFull, 2) / (maxDx / 2) * (maxDx-dx));        
+			accelAmt =  (accelerationCoefficient * tickCount) + accelerationFromZeroToHalf;
+			accelAmt *= dir;
+		}
+		else if (dir*dx >= -maxDx && dir* dx <=0) {
+			accelAmt = maxDx / ticksToStop;
+			accelAmt *= dir;
+		}
+
+
+		if (isTouchingGround) {
+
+		}
+		else {
+			accelAmt = accelAmt * 2 / 3;
+		}
+		
+		
+		
+		if (accelAmt + dx > maxDx) {accelAmt = maxDx - dx;}
+		else if(accelAmt + dx < -maxDx) {accelAmt = -maxDx - dx;}
+		accelerate(accelAmt, 0); 
 	}
 
 	public void jump() {
 		// JUMP!
-		accelerate(0, -640); 
+		if(isTouchingGround){
+			accelerate(0, -640);
+		}
+		
 	}
 
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
-		accelerate(0,1440);
-		x += dt * (oldDx + ((ddx/2) * dt));
-		y += dt * (oldDy + ((ddy/2) * dt));
+		accelerate(0, 1440*dt);
+		applyFriction();
+		isTouchingGround = true;
+		
+		super.moveByAmount(dt * (oldDx + ((ddx/2) * dt)), dt * (oldDy + ((ddy/2) * dt)));
+		oldDx = this.dx;
+		oldDy = this.dy;
+		ddx = 0;
+		ddy = 0;
 	}
 	
-	public void accelerate (double dx, double dy) {
+	private void accelerate (double dx, double dy) {
 		// This is a simple acceleate method that adds dx and dy to the current velocity.
 		this.dx += dx;
 		this.dy += dy;
@@ -56,72 +94,24 @@ public class Mario extends Sprite {
 		ddy += dy;
 	}
 	
-	public void doInput(int direction) {
-		// for this, up = 2, right = 1, down = 3, left = -1;
-		double accelAmt = 0;
-		isMoving = true;
-		if (direction == 1) {
+	
+	private void applyFriction() {
+		if (isMoving) {
 			if (isTouchingGround) {
-				accelerate(0, -640); 
-			}
-		}
-
-		else if (direction == 1) {
-
-			if (dx >= 0 && dx <=maxDx/2) {
-				accelAmt = maxDx / ticksFromZeroToHalf;
-			}
-			else if (dx >= maxDx/2 && dx <= maxDx) {
-				double accelerationFromZeroToHalf = maxDx / 2 / ticksFromZeroToHalf;
-				double accelerationCoefficient = accelerationFromZeroToHalf / ticksFromHalfToFull;
-				double tickCount = ticksFromHalfToFull + Math.sqrt(Math.pow(ticksFromHalfToFull, 2) / (maxDx / 2) * (maxDx-dx));        
-				accelAmt =  (accelerationCoefficient * tickCount) + accelerationFromZeroToHalf;
-			}
-			else if (dx >= -maxDx && dx <=0) {
-				accelAmt = maxDx / ticksToStop;
-			}
-
-
-			if (isTouchingGround) {
-
+				accelerate(-dx/12*fricMod,0); 
 			}
 			else {
-				accelAmt = accelAmt * 2 / 3;
+				accelerate(-dx/12*fricMod,0); 	
 			}
 		}
-
-		else if (direction == 3) {
+		else {
 			if (isTouchingGround) {
-				accelerate(0, 0); 
-			}
-		}
-
-		else if (direction == -1) {
-
-			if (dx <= 0 && dx >= -maxDx/2) {
-				accelAmt = -maxDx / ticksFromZeroToHalf;
-			}
-			else if (dx <= -maxDx/2 && dx >= -maxDx) {	 
-				double accelerationFromZeroToHalf = -maxDx/ 2 / ticksFromZeroToHalf;
-				double accelerationCoefficient = accelerationFromZeroToHalf / ticksFromHalfToFull;
-				double tickCount = ticksFromHalfToFull + Math.sqrt(Math.pow(ticksFromHalfToFull, 2) / (-maxDx / 2) * (-maxDx+dx));        
-				accelAmt =  (accelerationCoefficient * tickCount) + accelerationFromZeroToHalf;
-
-			}
-			else if (dx <= maxDx && dx >= 0) {
-				accelAmt = -maxDx / ticksToStop;
-			}
-			if (isTouchingGround) {
-
+				accelerate(-dx/2*fricMod,0); 
 			}
 			else {
-				accelAmt = accelAmt * 2 / 3;
+				accelerate(-dx/12*fricMod,0); 	
 			}
 		}
-		else {}
-		if (accelAmt + dx > maxDx) {accelAmt = maxDx - dx;}
-		else if(accelAmt + dx < -maxDx) {accelAmt = -maxDx - dx;}
-		accelerate(accelAmt, 0); 
 	}
 
 	
