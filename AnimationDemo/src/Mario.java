@@ -89,6 +89,7 @@ public class Mario extends Sprite {
 		else {
 			accelerate(0, 1440*dt);
 		}
+		
 		int c = 0;
 		while(!isTouchingGround && wouldBeX(obstacles) && c < 20) {
 			accelerate( -dx / 8,0);
@@ -101,6 +102,7 @@ public class Mario extends Sprite {
 			}
 			c++;
 		}
+		
 		
 		applyFriction();
 		isMoving = false;

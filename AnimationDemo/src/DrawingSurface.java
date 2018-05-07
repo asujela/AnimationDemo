@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+
+import platforms.Platform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -16,6 +18,7 @@ public class DrawingSurface extends PApplet {
 
 	private Mario mario;
 	private ArrayList<Shape> obstacles;
+	private ArrayList<Platform> platforms;
 
 	private ArrayList<Integer> keys;
 	
@@ -32,6 +35,10 @@ public class DrawingSurface extends PApplet {
 		obstacles.add(new Rectangle(700,250,100,50));
 		obstacles.add(new Rectangle(375,300,50,100));
 		obstacles.add(new Rectangle(300,250,200,50));
+		
+		for(Shape s : obstacles) {
+			
+		}
 	}
 
 
