@@ -5,7 +5,7 @@ import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import platforms.Platform;
+import worldGeometry.Platform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
