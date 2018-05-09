@@ -2,31 +2,23 @@ package worldGeometry;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 public class Platform {
 
-	private int width;
-	private int height;
+	private double width;
+	private double height;
 	private double x;
 	private double y;
 
-	public Platform(double xInit, double yInit) {
-		x = xInit;
-		y = yInit;
-		width = 40;
-		height = 40;
-	}
-
-	public Platform(double xInit, double yInit, int widthInit, int heightInit) {
-		x = xInit;
-		y = yInit;
-		width = widthInit;
-		height = heightInit;
-	}
-
-	public void draw(Graphics g){
-		g.setColor(Color.BLACK);
-		g.fillRect((int) x - width/2, (int)y - height/2, width, height);
+	public Platform(Shape s) {
+		Rectangle r = s.getBounds();
+		x = r.getCenterX();
+		y = r.getCenterY();
+		width = r.getWidth();
+		height = r.getHeight();
+		
 	}
 
 	public double[] getCBoxDimensions() {

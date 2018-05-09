@@ -18,8 +18,6 @@ public class DrawingSurface extends PApplet {
 
 	private Mario mario;
 	private ArrayList<Shape> obstacles;
-	private ArrayList<Platform> platforms;
-
 	private ArrayList<Integer> keys;
 	
 	private ArrayList<PImage> assets;
